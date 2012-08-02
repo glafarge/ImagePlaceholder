@@ -96,7 +96,7 @@
             public function output() {	
                 // Output in browser
                 header("Content-Type: image/png"); 
-                header("Content-disposition: inline; filename=" . $this->filename); // RFC2183: http://www.ietf.org/rfc/rfc2183.txt
+                //header("Content-disposition: inline; filename=" . $this->filename); // RFC2183: http://www.ietf.org/rfc/rfc2183.txt
                 
                 imagepng($this->image);
 

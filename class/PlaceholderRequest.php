@@ -42,16 +42,18 @@
         */
           
             public static function cachingHeaders () {
-                    header("Cache-Control: private, max-age=10800, pre-check=10800"); 
-                    header("Pragma: private");
-                    // Set to expire in 2 days 
-                    header("Expires: " . date(DATE_RFC822,strtotime(" 2 day"))); 
-
-                    // If the browser has a cached version of this image, send 304 
-                    if( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
-                            header('Last-Modified: '.$_SERVER['HTTP_IF_MODIFIED_SINCE'], true, 304); 
-                            exit();
-                    }
+					header("Cache-Control: private, max-age=10800, pre-check=10800");
+					header("Pragma: private");
+					header("Expires: " . date(DATE_RFC822,strtotime("1 day")));
+			
+			
+					if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
+						header('Last-Modified: '.$_SERVER['HTTP_IF_MODIFIED_SINCE'],true,304);
+						exit;
+					}
+					else {
+						header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT', true, 200);    
+					}
             }
 
             
@@ -62,7 +64,7 @@
         */
             public static function requestPath() {	
                     $scriptName = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']) );
-                    $configString = substr_replace($_SERVER['REQUEST_URI'], '', 0, strlen($scriptName)+1);
+                    $configString = substr_replace($_SERVER['REQUEST_URI'], '', 0, strlen($scriptName));
 
                     // Clear query string from path
                     $configString = preg_replace('/\?.*/', '', $configString);			
